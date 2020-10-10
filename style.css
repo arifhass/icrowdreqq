@@ -1,0 +1,146 @@
+
+
+#h1 {
+	font-family: calibri;
+		color: #5C99D6;
+	text-align: center;
+   }
+
+p {
+ font-family: calibri;
+ font-size: 13px;
+ color: #5C99D6;
+ text-align: center;
+}
+
+hr{
+width: 120px;
+height:1px; border:none; color:#000; background-color:#5C99D6;
+}
+
+h3{font-family: calibri;
+ font-size: 18px;
+ color: #5C99D6;
+ text-align: center;}
+
+#containerdon{
+	width: 400px;
+	height: 200px;
+	position: relative;
+	margin: auto;
+
+}
+#imagedon {
+	display: block;
+	border-radius: 8%;
+	float: left ;
+	width: 220px;
+	height: 150px;
+}
+#textdon {
+
+	margin-left: 10px;
+	float: left ;
+	font-family: calibri;
+	font-size: 13px;
+	color: #5C99D6;
+	position: relative;
+	top: 70px;
+	bottom: 200px;
+	left: 0;
+	right: 0;
+}
+.column {
+  float: left;
+  width: 300px;
+  padding: 5px;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+#menu li a:hover {
+    background-color: #222222;
+}
+#menu li a:active {
+    background-color: #222222;
+}
+
+.hvrbox,
+.hvrbox * {
+	box-sizing: border-box;
+}
+.hvrbox {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	max-width: 100%;
+	height: 6%;
+}
+.hvrbox img {
+	max-width: 100%;
+}
+.hvrbox .hvrbox-layer_bottom {
+	display: block;
+}
+.hvrbox .hvrbox-layer_top {
+	opacity: 0;
+	position: absolute;
+
+	left: 0;
+	right: 0;
+	bottom: 30px;
+	width: 100%;
+	height: 6%;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	padding: 15px;
+	-moz-transition: all 0.4s ease-in-out 0s;
+	-webkit-transition: all 0.4s ease-in-out 0s;
+	-ms-transition: all 0.4s ease-in-out 0s;
+	transition: all 0.4s ease-in-out 0s;
+}
+.hvrbox:hover .hvrbox-layer_top,
+.hvrbox.active .hvrbox-layer_top {
+	opacity: 1;
+}
+.hvrbox .hvrbox-text {
+	text-align: center;
+	font-size: 18px;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-moz-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+.hvrbox .hvrbox-text_mobile {
+	font-size: 15px;
+	border-top: 1px solid rgb(179, 179, 179); /* for old browsers */
+	border-top: 1px solid rgba(179, 179, 179, 0.7);
+	margin-top: 5px;
+	padding-top: 2px;
+	display: none;
+}
+.hvrbox.active .hvrbox-text_mobile {
+	display: block;
+}
+
+
+body {
+	font-family: calibri;
+	color: #5C99D6;
+	text-align: center;
+   }
+
+   .vertical-center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+  }

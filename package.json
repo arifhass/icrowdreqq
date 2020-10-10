@@ -1,0 +1,47 @@
+{
+  "name": "icrowdreq",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server",
+    "start": "node server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.0",
+    "bcrypt": "^5.0.0",
+    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
+    "country-list-js": "^3.1.7",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.0",
+    "google": "^2.1.0",
+    "google-oauth": "0.0.2",
+    "js": "^0.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mailchimp-api-v3": "^1.14.0",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "^5.10.8",
+    "nodemailer": "^6.4.13",
+    "oauth": "^0.9.15",
+    "oauth20": "^3.0.0",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.0.1",
+    "request": "^2.88.2",
+    "validate-phone-number-node-js": "0.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "description": ""
+}
