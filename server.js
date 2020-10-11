@@ -171,47 +171,7 @@ app.post('/login',
         });
     });
 
-// app.post('/reset', 
-// // body('email', 'Email is required').notEmpty(),
-// (req, res) => {
-//     const {email} = req.body;
-
-//     User.findOne({email}), (err, user) => {
-//         if(err || !user) {
-//             return res.status(400).json({error:"User with this email doesn't exist."});
-//         }
-//         const token =jwt.sign({email: user.email}, process.env.RESET_KEY, {expiresIn: '20m'});
-//         const data = {
-//             from: 'noreply@icrowd.com',
-//             to: email,
-//             subject: 'Forgot password link',
-//             html: `
-//             <h2> sjklsdnvmsnvs </h2>
-//             <p> ${process.env.CLIENT_URL}/reset/${token}</p>
-//             `
-//         };
-
-//         return user.updateOne({reset: token}, function (err, success){
-//             if(err) {
-//                 return res.status(400).json({error: "reset password link err"});
-//             }
-//             else {
-//                 mg.messages().send(data, function (error, body) {
-//                     if(error){
-//                         return res.json({
-//                             error: err.message
-//                         })
-//                     }
-//                     return res.redirect('login');
-//                     // return res.json({message: 'Email has been sent, kindly reset your password'})
-//                     // return res.redirect('login');
-//                 });
-//             }
-//         })
-//     }
-
-// })
-app.post('/forgot',
+    app.post('/forgot',
     body('email', 'Email is required').notEmpty(),
     body('email', 'Email is invalid').isEmail(),
     function (req, res, next) {
@@ -244,7 +204,7 @@ app.post('/forgot',
             },
             function (token, user, done) {
                 var smtpTransport = nodemailer.createTransport({
-                    service: 'Hotmail',
+                    service: 'Gmail',
                     auth: {
                         user: process.env.EMAIL,
                         pass: process.env.GMAILPWD
