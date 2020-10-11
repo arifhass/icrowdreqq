@@ -18,7 +18,7 @@ const cors = require('cors');
 require('dotenv').config()
 const mailgun = require("mailgun-js")
 const DOMAIN = 'sandbox6f45f044637c413e85e890d65d455603.mailgun.org';
-const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN });
+// const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN });
 const session = require('express-session')
 app.use(session({
     cookie: { maxAge: 60000 },
