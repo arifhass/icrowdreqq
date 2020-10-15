@@ -6,6 +6,8 @@ var crypto = require('crypto');
 const flash = require("connect-flash");
 app.use(flash());
 var nodemailer = require("nodemailer");
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 var async = require("async");
 const jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
@@ -16,9 +18,7 @@ const keys = require("./config/keys");
 const User = require("./models/User");
 const cors = require('cors');
 require('dotenv').config()
-const mailgun = require("mailgun-js")
-const DOMAIN = 'sandbox6f45f044637c413e85e890d65d455603.mailgun.org';
-// const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN });
+
 const session = require('express-session')
 app.use(session({
     cookie: { maxAge: 60000 },
@@ -32,14 +32,8 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
     useCreateIndex: true
 });
-// mongoose.connect("mongodb+srv://abaid_267:abaid_267@cluster0.zxvlg.mongodb.net/dataname?retryWrites=true&w=majority", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true
-// });
+
 let user = new User;
-// var User = mongoose.model('User', UserSchema);
-// var user = new UserModel(req.body)
 
 app.use(express.json());
 app.use(cors())
@@ -64,22 +58,22 @@ passport.use(
     new GoogleStrategy({
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: '/auth/google/redirect'
+        callbackURL: process.env.CLIENT_URL+'/auth/google/redirect',
+        proxy:true
     },
-        (accessToken, refreshToken, profile, done) => {
-            console.log("access token", accessToken)
-            console.log("refresh token", refreshToken)
-            console.log("profile", profile)
-            console.log("done", done)
-        })
+    async (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+   })
+
+        
 )
 
-app.get('/auth/google', passport.authenticate('google',
+app.get('/auth/google', passport.authenticate(
+    'google',
     {
         scope: ['profile', 'email']
     }
 ));
-// passport.authenticate('google', {failureRedirect: '/login'}
 app.get('/auth/google/redirect', (req, res) => {
     res.redirect('/homepage');
 });
@@ -151,15 +145,23 @@ app.post('/register', [
 
 });
 
+app.get('/data', (req, res) => {
+    let user = req.cookies.user
+    res.json({ username: user.email, pass_word: user.password })
+});
+
 app.post('/login',
     body('email', 'Email is required').notEmpty(),
     body('email', 'Email is invalid').isEmail(),
     body('password', 'Password is required').notEmpty(),
     (req, res) => {
-        let { email, password } = req.body;
+        let { email, password, remember_me } = req.body;
         db.collection('details').findOne({ email }).then(user => {
             if (!user) {
                 return res.status(400).json({ error: [{ msg: 'Email not found.' }] })
+            }
+            if (remember_me && user) {
+                res.cookie('user', { 'email': user.email, 'password': password }, { expire: 3600 + Date.now(), maxAge: 360 + Date.now() })
             }
 
             bcrypt.compare(password, user.password).then(match => {
@@ -175,7 +177,6 @@ app.post('/login',
     body('email', 'Email is required').notEmpty(),
     body('email', 'Email is invalid').isEmail(),
     function (req, res, next) {
-        // let { email} = req.body;    
         async.waterfall([
             function (done) {
                 crypto.randomBytes(20, function (err, buf) {
@@ -214,9 +215,7 @@ app.post('/login',
                     to: user.email,
                     from: process.env.EMAIL,
                     subject: 'reset pwd',
-                    text: `<a href="http://${req.headers.host}/reset/${token}">click link</a>`,
-                    // text: ' djcnskcns,mc click link' +
-                    //     'http://' + req.headers.host + '/reset/' + token + '\n\n' + 'vm s,dv smv ,sv s,'
+                    text: `Click on the link to reset password: <a href="http://${req.headers.host}/reset/${token}"> click link</a> Ignore this email if you haven't requested a password, your password remains unchanged.`,
                 };
                 smtpTransport.sendMail(mailOptions, function (err) {
                     console.log('mail sent')
@@ -231,9 +230,7 @@ app.post('/login',
     });
 
 app.get('/reset/:token', function (req, res) {
-
     db.collection('details').findOne({ resetPasswordToken: req.params.token }, function (err, user) {
-
         if (!user) {
             req.flash('error', 'Password reset token is invalid or has expired.');
             return res.redirect('/forgot');
@@ -241,7 +238,7 @@ app.get('/reset/:token', function (req, res) {
         res.sendFile('./reset.html', { root: __dirname });
     });
 });
-// 
+
 app.post('/reset/:token', function (req, res) {
     async.waterfall([
         function (done) {
@@ -264,25 +261,12 @@ app.post('/reset/:token', function (req, res) {
                                 done(err, 'user')
                             });
                         });
-
                     })
-                    // user.setPassword(req.body.password, function (err) {
-                    //     user.resetPasswordToken = undefined;
-                    //     user.resetPasswordExpires = undefined;
-
-                    //     user.save(function (err) {
-                    //             done(err, user);
-                    //     });
-                    // })
                 } else {
                     return res.status(400).json({ error: [{ msg: 'Passwords do not match' }] });
                 }
             });
         }
-        // , function (user, done) {
-        //     done(err, 'done')
-        //     res.redirect('login')
-        // }
     ], function (err) {
         if (err) return next(err);
         res.redirect('/login');
