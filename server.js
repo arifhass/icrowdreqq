@@ -277,20 +277,9 @@ app.get('/', function (req, res) {
     res.sendFile('./register.html', { root: __dirname });
 })
 
-
 app.get('/forgot', function (req, res) {
     res.sendFile('./forgot.html', { root: __dirname });
 })
-
-// app.get('/reset/:token ', function (req, res) {
-//     User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
-//         if (!user) {
-//             req.flash('error', 'link has invalid or expired');
-//             return res.redirect('/forgot');
-//         }
-//         res.sendFile('./reset.html', { token: req.params.token });
-//     });
-// });
 
 app.get('/login', function (req, res) {
     res.sendFile('./login.html', { root: __dirname });
