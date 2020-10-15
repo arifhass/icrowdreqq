@@ -113,7 +113,6 @@ app.post('/register', [
         if (user) {
             return res.status(400).json({ error: [{ msg: 'Email already exists.' }] })
         }
-
         var data = {
             "fname": fname,
             "lname": lname,
@@ -219,7 +218,7 @@ app.post('/login',
                 };
                 smtpTransport.sendMail(mailOptions, function (err) {
                     console.log('mail sent')
-                    req.flash('sucess', 'ksdbcjks' + user.email + 'cjksnmnsc');
+                    req.flash('sucess', 'email sent');
                     done(err, 'done');
                 });
             }
