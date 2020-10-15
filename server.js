@@ -215,7 +215,7 @@ app.post('/login',
                     to: user.email,
                     from: process.env.EMAIL,
                     subject: 'reset pwd',
-                    text: `Click on the link to reset password: <a href="http://${req.headers.host}/reset/${token}"> click link</a> Ignore this email if you haven't requested a password, your password remains unchanged.`,
+                    text: `Click on the link to reset password: "http://${req.headers.host}/reset/${token}" Ignore this email if you haven't requested a password, your password remains unchanged.`,
                 };
                 smtpTransport.sendMail(mailOptions, function (err) {
                     console.log('mail sent')
